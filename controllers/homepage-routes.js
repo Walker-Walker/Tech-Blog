@@ -56,7 +56,7 @@ router.get("/signup", (req, res) => {
     res.redirect("/");
     return;
   }
-  response.render("signup"); // send user to sign up page
+  res.render("signup"); // send user to sign up page
 });
 
 module.exports = router;
