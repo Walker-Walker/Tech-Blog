@@ -1,16 +1,9 @@
 const router = require("express").Router();
 const { Comment } = require("../../models");
+const withAuth = require("../../utils/auth");
 
-router.get("/", (req, res) => {
-  Comment.findAll(req.body)
-    .then((dbCommentData) => res.json(dbCommentData))
-    .catch((err) => {
-      console.log(err);
-      res.status(400).json(err);
-    });
-});
-// Wrapping the Sequelize queries in if (req.session) statements ensures that only logged-in users interact with the database.
-router.post('/', (req, res) => {
+
+router.post('/', withAuth,  (req, res) => {
     // check the session
     if (req.session) {
       Comment.create({
@@ -22,22 +15,36 @@ router.post('/', (req, res) => {
         .then(dbCommentData => res.json(dbCommentData))
         .catch(err => {
           console.log(err);
-          res.status(400).json(err);
+          res.status(500).json(err);
         });
     }
   });
 
-router.delete("/:id", (req, res) => {
-  Comment.destroy({
-    where: {
-      id: req.params.id,
-    },
-  })
-    .then((dbCommentData) => res.json(dbCommentData))
-    .catch((err) => {
-      console.log(err);
-      res.status(500).json(err);
-    });
-});
+
+//CRUD Manipulate Database 
+
+// router.get("/", (req, res) => {
+//   Comment.findAll(req.body)
+//     .then((dbCommentData) => res.json(dbCommentData))
+//     .catch((err) => {
+//       console.log(err);
+//       res.status(400).json(err);
+//     });
+// });
+// Wrapping the Sequelize queries in if (req.session) statements ensures that only logged-in users interact with the database.
+
+
+// router.delete("/:id", (req, res) => {
+//   Comment.destroy({
+//     where: {
+//       id: req.params.id,
+//     },
+//   })
+//     .then((dbCommentData) => res.json(dbCommentData))
+//     .catch((err) => {
+//       console.log(err);
+//       res.status(500).json(err);
+//     });
+// });
 
 module.exports = router;
