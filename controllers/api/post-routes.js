@@ -5,19 +5,29 @@ const withAuth = require("../../utils/auth");
 
 //CRUD Manipulate Database
 
+// router.post("/", withAuth, (req, res) => {
+//   Post.create({
+//     title: req.body.title,
+//     body:  req.body,
+//     user_id: req.session.user_id,
+//   })
+//     .then((dbPostData) => res.json(dbPostData))
+//     .catch((err) => {
+//       console.log(err);
+//       res.status(500).json(err);
+//     });
+// });
 router.post("/", withAuth, (req, res) => {
-  Post.create({
-    title: req.body.title,
-    body:  req.body,
-    user_id: req.session.user_id,
-  })
-    .then((dbPostData) => res.json(dbPostData))
-    .catch((err) => {
-      console.log(err);
+  const body = req.body;
+  console.log(req.session.userId);
+  Post.create({ ...body, userId: req.session.userId })
+    .then(newPost => {
+      res.json(newPost);
+    })
+    .catch(err => {
       res.status(500).json(err);
     });
 });
-
 //updated post
 
 router.put("/:id", withAuth, (req, res) => {

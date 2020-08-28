@@ -7,13 +7,13 @@ const withAuth = require("../utils/auth");
 router.get("/", withAuth, (req, res) => {
   Post.findAll({
     where: {
-      user_id: req.session.user_id,
+      userId: req.session.userId,
     },
   })
     .then((dbPostData) => {
       //serialize data before passing to template
       const posts = dbPostData.map((post) => post.get({ plain: true }));
-      res.render("dashboard", { posts, loggedIn: true });
+      res.render("all-posts-admin", { layout: "dashboard", posts, loggedIn: true });
     })
     .catch((err) => {
       console.log(err);
