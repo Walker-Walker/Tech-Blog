@@ -31,14 +31,15 @@ router.post("/", withAuth, (req, res) => {
 //updated post
 
 router.put("/:id", withAuth, (req, res) => {
-  Post.update( req.body, 
-    {
+  console.log("\n\n\n I am here:" )
+  Post.update(  
+    { 
       
     where: {
       id: req.params.id
-    }
+    },
       
-    
+    title: req.body.title
     }
   )
     .then((dbPostData) => {
