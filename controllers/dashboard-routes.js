@@ -13,7 +13,11 @@ router.get("/", withAuth, (req, res) => {
     .then((dbPostData) => {
       //serialize data before passing to template
       const posts = dbPostData.map((post) => post.get({ plain: true }));
-      res.render("all-posts-admin", { layout: "dashboard", posts, loggedIn: true });
+      res.render("all-posts-admin", {
+        layout: "dashboard",
+        posts,
+        loggedIn: true,
+      });
     })
     .catch((err) => {
       console.log(err);
@@ -29,12 +33,29 @@ router.get("/new", withAuth, (req, res) => {
   });
 });
 
+// router.get("/edit/:id", withAuth, (req, res) => {
+//   Post.findByPk(req.params.id)
+//     .then(dbPostData => {
+//       if (dbPostData) {
+//         const post = dbPostData.get({ plain: true });
+//         res.render("edit-post", {
+//           layout: "dashboard",
+//           post
+//         });
+//       } else {
+//         res.status(404).end();
+//       }
+//     })
+//     .catch(err => {
+//       res.status(500).json(err);
+//     });
+// });
 router.get("/edit/:id", withAuth, (req, res) => {
   Post.findByPk(req.params.id)
     .then((dbPostData) => {
       if (dbPostData) {
-        const posts = dbPostData.get({ plain: true });
-        res.render("edit-post", { layout: "dashboard", posts });
+        const post = dbPostData.get({ plain: true });
+        res.render("edit-post", { layout: "dashboard", post });
       } else {
         res.status(404).end();
       }
