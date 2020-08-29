@@ -30,35 +30,55 @@ router.post("/", withAuth, (req, res) => {
 });
 //updated post
 
+
 router.put("/:id", withAuth, (req, res) => {
-  // console.log("\n\n\n I am here:" )
-  Post.update(  
-    { 
-      
+  Post.update(req.body, {
     where: {
       id: req.params.id
-    },
-      
-    title: req.body.title
     }
-  )
-    .then((dbPostData) => {
-      if (!dbPostData) {
-        res.status(404).json({ message: "No post found with this id" });
-        return;
-      }
+  })
+    .then(affectedRows => {
       if (affectedRows > 0) {
         res.status(200).end();
       } else {
         res.status(404).end();
       }
-      res.json(dbPostData);
     })
-    .catch((err) => {
-      console.log(err);
+    .catch(err => {
       res.status(500).json(err);
     });
 });
+
+
+// router.put("/:id", withAuth, (req, res) => {
+//   // console.log("\n\n\n I am here:" )
+//   Post.update(  
+//     { 
+      
+//     where: {
+//       id: req.params.id
+//     },
+      
+//     title: req.body.title
+//     }
+//   )
+//     .then((dbPostData) => {
+//       if (!dbPostData) {
+//         res.status(404).json({ message: "No post found with this id" });
+//         return;
+//       }
+//       if (affectedRows > 0) {
+//         res.status(200).end();
+//       } else {
+//         res.status(404).end();
+//       }
+//       res.json(dbPostData);
+//     })
+//     .catch((err) => {
+//       console.log(err);
+//       res.status(500).json(err);
+//     });
+// });
 
 // delete a post
 
