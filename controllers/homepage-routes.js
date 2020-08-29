@@ -31,7 +31,7 @@ router.get("/post/:id", (req, res) => {
   })
     .then((dbPostData) => {
       if (dbPostData) {
-        const posts = dbPostData.get({ plain: true });
+        const post = dbPostData.get({ plain: true });
         res.render("single-post", { post });
       } else {
         res.status(404).end();

@@ -31,7 +31,7 @@ router.post("/", withAuth, (req, res) => {
 //updated post
 
 router.put("/:id", withAuth, (req, res) => {
-  console.log("\n\n\n I am here:" )
+  // console.log("\n\n\n I am here:" )
   Post.update(  
     { 
       
